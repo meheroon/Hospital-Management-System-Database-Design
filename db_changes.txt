@@ -1,0 +1,69 @@
+-- Create Departments Table
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    Location VARCHAR(50) NOT NULL
+);
+
+-- Create Doctors Table
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    Specialization VARCHAR(50),
+    Phone VARCHAR(15),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Create Patients Table
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    Age INT NOT NULL,
+    Gender VARCHAR(10) NOT NULL,
+    Phone VARCHAR(15)
+);
+
+-- Create Appointments Table
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    Date DATE NOT NULL,
+    Time TIME NOT NULL,
+    Status VARCHAR(20) DEFAULT 'Pending',
+    PatientID INT,
+    DoctorID INT,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Insert Dummy Data for Departments
+INSERT INTO Departments (Name, Location) VALUES
+('Cardiology', 'Building A'),
+('Neurology', 'Building B'),
+('Pediatrics', 'Building C'),
+('Orthopedics', 'Building D'),
+('Radiology', 'Building E');
+
+-- Insert Dummy Data for Doctors
+INSERT INTO Doctors (Name, Specialization, Phone, DepartmentID) VALUES
+('Dr. Smith', 'Cardiologist', '1234567890', 1),
+('Dr. Lee', 'Neurologist', '1234567891', 2),
+('Dr. Patel', 'Pediatrician', '1234567892', 3),
+('Dr. Brown', 'Orthopedic', '1234567893', 4),
+('Dr. Taylor', 'Radiologist', '1234567894', 5);
+
+-- Insert Dummy Data for Patients
+INSERT INTO Patients (Name, Age, Gender, Phone) VALUES
+('Alice Johnson', 30, 'Female', '5551231234'),
+('Bob Smith', 45, 'Male', '5551231235'),
+('Cathy Brown', 20, 'Female', '5551231236'),
+('David Lee', 33, 'Male', '5551231237'),
+('Ella White', 50, 'Female', '5551231238');
+
+-- Insert Dummy Data for Appointments
+INSERT INTO Appointments (Date, Time, Status, PatientID, DoctorID) VALUES
+('2024-12-22', '09:00:00', 'Pending', 1, 1),
+('2024-12-22', '10:00:00', 'Confirmed', 2, 2),
+('2024-12-23', '11:00:00', 'Completed', 3, 3),
+('2024-12-23', '13:00:00', 'Pending', 4, 4),
+('2024-12-24', '14:00:00', 'Cancelled', 5, 5);
